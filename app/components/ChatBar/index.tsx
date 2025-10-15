@@ -1,4 +1,3 @@
-import { buildUserPrompt, fetcher } from "@/app/utils";
 import { useCopilotStore } from "@/store";
 import { Button, Input } from "antd";
 import { Loader2, Send } from "lucide-react";
@@ -14,13 +13,13 @@ const sendRequest = (url: string, { arg }: { arg: { username: string } }) => {
 };
 
 export const ChatBar: React.FC = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<string>("");
   const { messages, addMessage, setCode, setEdited, setIsStreaming, setError } = useCopilotStore();
   const edited = useCopilotStore(s => s.edited);
 
   const { trigger, isMutating } = useSWRMutation("", sendRequest);
 
-  const onSend = useCallback(async () => {
+  const onSend = useCallback(() => {
     const text = input.trim();
     if (!text) {
       return;
@@ -32,6 +31,8 @@ export const ChatBar: React.FC = () => {
       <Input
         value={input}
         onChange={e => setInput(e.target.value)}
+        className={styles.input}
+        variant="outlined"
         placeholder={"例如：创建一个卡片，包含标题、描述、以及一个蓝色的‘了解更多’按钮"}
         onKeyDown={e => {
           if (e.key === "Enter") {

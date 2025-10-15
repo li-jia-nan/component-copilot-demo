@@ -19,11 +19,9 @@ export const CodeEditor: React.FC<Readonly<CodeEditorProps>> = props => {
   const { language, value, onChange, monospace = true } = props;
   return (
     <div className={styles.codeEditor}>
-      <div className={styles.headerWrapper}>
-        <div className={styles.header}>
-          <Code className={styles.icon} />
-          {language}
-        </div>
+      <div className={styles.header}>
+        <Code className={styles.icon} />
+        {language}
       </div>
       <MonacoEditor
         className={clsx(styles.editor, {

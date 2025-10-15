@@ -46,14 +46,12 @@ export const buildSrcDoc = (code: GeneratedCode) => {
     <style>
       *{box-sizing:border-box}
       :root{font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial}
-      body{margin:16px;background:#0b0f14;color:#e5e7eb}
+      body{margin:16px;background-color:#0b0f14;color:#e5e7eb}
       ${css}
-      #__err{position:fixed;left:12px;right:12px;bottom:12px;background:#1f2937;color:#fca5a5;padding:8px 10px;border-radius:8px;font-size:12px}
     </style>
   </head>
   <body>
-    ${html || '<div style="opacity:.6">预览区还没有内容，试着在左侧输入需求</div>'}
-    <div id="__err"></div>
+    ${html || '<div style="opacity:.6">预览区还没有内容，试着在上面输入需求☝️</div>'}
     <script>${js}</script>
   </body>
 </html>`;

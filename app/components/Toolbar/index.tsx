@@ -19,7 +19,7 @@ export const Toolbar: React.FC = () => {
     <div className={styles.toolbar}>
       <Button onClick={copyAll} className={styles.button}>
         <Copy className={styles.icon} />
-        {copied ? "已复制" : "复制JSON"}
+        复制JSON
       </Button>
       <Button onClick={toggleShowCode} className={styles.button}>
         {showCode ? (
@@ -33,9 +33,6 @@ export const Toolbar: React.FC = () => {
         <Trash2 className={styles.icon} />
         重置会话
       </Button>
-      <div className={styles.status}>
-        <Shield className={styles.icon} /> 预览已沙箱隔离
-      </div>
     </div>
   );
 };

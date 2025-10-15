@@ -26,8 +26,8 @@ const ComponentCopilotApp: React.FC = () => {
     <div className={styles.container}>
       <header className={styles.header}>
         <Sparkles className={styles.sparklesIcon} />
-        <h1 className={styles.title}>Component Copilot</h1>
-        <span className={styles.subtitle}>AI 驱动的 UI 组件原型工具</span>
+        <div className={styles.title}>Component Copilot</div>
+        <div className={styles.subtitle}>AI 驱动的 UI 组件原型工具</div>
       </header>
       <section className={styles.controls}>
         <ChatBar />
@@ -35,11 +35,9 @@ const ComponentCopilotApp: React.FC = () => {
       </section>
       <main className={styles.main}>
         <div className={styles.previewColumn}>
-          <div className={styles.previewHeader}>
-            <div className={styles.previewTitle}>
-              <Play className={styles.playIcon} />
-              预览
-            </div>
+          <div className={styles.previewTitle}>
+            <Play className={styles.playIcon} />
+            预览
           </div>
           <div className={styles.previewContent}>
             <div className={styles.previewFrame}>
