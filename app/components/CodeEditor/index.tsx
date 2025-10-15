@@ -1,6 +1,8 @@
 import { Input } from "antd";
 import { Code } from "lucide-react";
 import dynamic from "next/dynamic";
+import styles from "./index.module.scss";
+import clsx from "clsx";
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
@@ -16,15 +18,17 @@ interface CodeEditorProps {
 export const CodeEditor: React.FC<Readonly<CodeEditorProps>> = props => {
   const { language, value, onChange, monospace = true } = props;
   return (
-    <div className="h-full">
-      <div className="py-3">
-        <div className="text-sm font-medium flex items-center gap-2">
-          <Code className="w-4 h-4" />
+    <div className={styles.codeEditor}>
+      <div className={styles.headerWrapper}>
+        <div className={styles.header}>
+          <Code className={styles.icon} />
           {language}
         </div>
       </div>
       <MonacoEditor
-        className="min-h-[180px] h-[260px] resize-vertical"
+        className={clsx(styles.editor, {
+          "font-mono text-sm": monospace,
+        })}
         defaultValue={`// ${language}`}
         value={value}
         defaultLanguage={language}

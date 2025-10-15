@@ -52,7 +52,7 @@ export const buildSrcDoc = (code: GeneratedCode) => {
     </style>
   </head>
   <body>
-    ${html || '<div style="opacity:.6">(预览区还没有内容，试着在左侧输入需求)</div>'}
+    ${html || '<div style="opacity:.6">预览区还没有内容，试着在左侧输入需求</div>'}
     <div id="__err"></div>
     <script>${js}</script>
   </body>

@@ -1,0 +1,134 @@
+$gap-3: 0.75rem;
+$slate-950: #020617;
+$slate-900: #0f172a;
+$slate-100: #f1f5f9;
+$slate-400: #94a3b8;
+$rose-400: #fb7185;
+$md: 768px;
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: $gap-3;
+  padding: 1rem;
+  background: linear-gradient(135deg, $slate-950 0%, $slate-900 50%, $slate-950 100%);
+  color: $slate-100;
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: $gap-3;
+
+    .sparklesIcon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      line-height: 1.75rem;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      line-height: 1rem;
+      color: $slate-400;
+    }
+  }
+
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $gap-3;
+    align-items: center;
+
+    @media (min-width: $md) {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $gap-3;
+    min-height: 0;
+    grid-auto-rows: minmax(0, 1fr);
+
+    @media (min-width: $md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .previewColumn {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+
+      .previewHeader {
+        padding: 0.75rem 0;
+
+        .previewTitle {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          line-height: 1.25rem;
+
+          .playIcon {
+            width: 1rem;
+            height: 1rem;
+          }
+        }
+      }
+
+      .previewContent {
+        flex: 1 1 0%;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+
+        .previewFrame {
+          height: 60vh;
+
+          @media (min-width: $md) {
+            height: calc(100vh - 220px);
+          }
+        }
+
+        .streamingNotice {
+          margin-top: 0.5rem;
+          font-size: 0.75rem;
+          line-height: 1rem;
+          color: $slate-400;
+          animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .errorNotice {
+          margin-top: 0.5rem;
+          font-size: 0.75rem;
+          line-height: 1rem;
+          color: $rose-400;
+        }
+      }
+    }
+
+    .codeColumn {
+      display: grid;
+      grid-template-rows: repeat(3, minmax(0, 1fr));
+      gap: $gap-3;
+    }
+  }
+}

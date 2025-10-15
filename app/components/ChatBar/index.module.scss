@@ -1,0 +1,25 @@
+@keyframes chatBarSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.chatBar {
+  display: flex;
+  gap: 0.5rem;
+  .sendButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  .spin {
+    animation: chatBarSpin 1s linear infinite;
+  }
+}
