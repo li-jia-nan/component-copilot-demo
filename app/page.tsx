@@ -12,13 +12,13 @@ import styles from "./page.module.scss";
 const ComponentCopilotApp: React.FC = () => {
   const { edited, setEdited, code, isStreaming, error, showCode } = useCopilotStore();
 
-  const setHtml = (value: string) => {
+  const setHtml = (value?: string) => {
     setEdited({ html: value });
   };
-  const setCss = (value: string) => {
+  const setCss = (value?: string) => {
     setEdited({ css: value });
   };
-  const setJs = (value: string) => {
+  const setJs = (value?: string) => {
     setEdited({ js: value });
   };
 

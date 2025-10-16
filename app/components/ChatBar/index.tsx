@@ -1,7 +1,7 @@
 import { useCopilotStore } from "@/store";
 import { Button, Input } from "antd";
 import { Loader2, Send } from "lucide-react";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { sendPost } from "@/app/utils";
 import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
