@@ -3,22 +3,25 @@ import { Button, Input } from "antd";
 import { Loader2, Send } from "lucide-react";
 import { clsx } from "clsx";
 import { sendPost } from "@/app/utils";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import styles from "./index.module.scss";
 
 export const ChatBar: React.FC = () => {
   const [input, setInput] = useState<string>();
 
-  const { messages, setCode } = useCopilotStore();
-
-  const edited = useCopilotStore(state => state.edited);
+  const { setCode, setIsMutating } = useCopilotStore();
 
   const { trigger, isMutating } = useSWRMutation("/api/generate-component", sendPost);
+
+  useEffect(() => {
+    setIsMutating(isMutating);
+  }, [isMutating]);
 
   const onSend = useCallback(async () => {
     const prompt = input?.trim();
     if (!prompt) {
+      alert("请输入内容");
       return;
     }
     trigger({ prompt: prompt })
@@ -38,6 +41,7 @@ export const ChatBar: React.FC = () => {
   return (
     <div className={styles.chatBar}>
       <Input
+        allowClear
         value={input}
         onChange={e => setInput(e.target.value)}
         className={styles.input}
@@ -52,14 +56,10 @@ export const ChatBar: React.FC = () => {
       />
       <Button
         onClick={isMutating ? undefined : onSend}
-        disabled={isMutating}
+        loading={isMutating}
         className={styles.sendButton}
       >
-        {isMutating ? (
-          <Loader2 className={clsx(styles.icon, styles.spin)} />
-        ) : (
-          <Send className={styles.icon} />
-        )}
+        {isMutating ? null : <Send className={styles.icon} />}
         发送
       </Button>
     </div>

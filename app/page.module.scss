@@ -68,7 +68,7 @@ $md: 768px;
     gap: $gap-3;
     min-height: 0;
     .previewColumn {
-      width: 50%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       min-height: 0;
@@ -101,7 +101,6 @@ $md: 768px;
           color: $slate-400;
           animation: pulse 1.5s ease-in-out infinite;
         }
-
         .errorNotice {
           margin-top: 0.5rem;
           font-size: 0.75rem;
@@ -112,10 +111,13 @@ $md: 768px;
     }
     .codeColumn {
       overflow: hidden;
-      width: 50%;
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 0;
+      &.hidden {
+        display: none;
+      }
     }
   }
 }

@@ -18,8 +18,7 @@ export interface GeneratedCode {
 export interface CopilotState {
   messages: CopilotMessage[];
   code: GeneratedCode; // latest AI output (or merged)
-  edited: GeneratedCode; // user-edited working copy
-  isStreaming: boolean;
+  isMutating: boolean;
   error?: string;
   showCode: boolean;
 }
@@ -27,9 +26,8 @@ export interface CopilotState {
 export interface CopilotAction {
   addMessage: (m: Omit<CopilotMessage, "id" | "ts">) => void;
   setCode: (c: Partial<GeneratedCode>) => void;
-  setEdited: (c: Partial<GeneratedCode>) => void;
   reset: () => void;
-  setIsStreaming: (b: boolean) => void;
+  setIsMutating: (b: boolean) => void;
   setError: (e?: string) => void;
   toggleShowCode: () => void;
 }
@@ -45,7 +43,7 @@ export const useCopilotStore = create<CopilotState & CopilotAction>(set => ({
   ],
   code: { html: "", css: "", js: "" },
   edited: { html: "", css: "", js: "" },
-  isStreaming: false,
+  isMutating: false,
   showCode: true,
   addMessage: m => {
     set(s => ({
@@ -54,9 +52,6 @@ export const useCopilotStore = create<CopilotState & CopilotAction>(set => ({
   },
   setCode: c => {
     set(s => ({ code: { ...s.code, ...c } }));
-  },
-  setEdited: c => {
-    set(s => ({ edited: { ...s.edited, ...c } }));
   },
   reset: () => {
     set({
@@ -69,13 +64,12 @@ export const useCopilotStore = create<CopilotState & CopilotAction>(set => ({
         },
       ],
       code: { html: "", css: "", js: "" },
-      edited: { html: "", css: "", js: "" },
-      isStreaming: false,
+      isMutating: false,
       error: undefined,
     });
   },
-  setIsStreaming: b => {
-    set({ isStreaming: b });
+  setIsMutating: b => {
+    set({ isMutating: b });
   },
   setError: e => {
     set({ error: e });
