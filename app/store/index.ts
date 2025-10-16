@@ -21,6 +21,9 @@ export interface CopilotState {
   isStreaming: boolean;
   error?: string;
   showCode: boolean;
+}
+
+export interface CopilotAction {
   addMessage: (m: Omit<CopilotMessage, "id" | "ts">) => void;
   setCode: (c: Partial<GeneratedCode>) => void;
   setEdited: (c: Partial<GeneratedCode>) => void;
@@ -32,21 +35,19 @@ export interface CopilotState {
 
 const baseSystemPrompt = () => {
   return [
-    "You are Component Copilot, an expert front-end code generator.",
-    'Always respond ONLY with a strict JSON object: {"html": string, "css": string, "js": string}.',
-    "Constraints:",
-    "- Output valid, minimal, production-quality code.",
-    "- No external resources (fonts, images, CDN).",
-    "- Avoid frameworks; use vanilla HTML/CSS/JS.",
-    "- Events must be attached after DOMContentLoaded or by placing script at the end.",
-    "- IDs/classes must be deterministic and stable across edits.",
-    "- Keep JS side-effect free except for initializing the component.",
-    "- If asked to modify, re-output the FULL updated {html, css, js}.",
-    "- Do not include markdown, backticks, or explanations.",
+    "你是 Component Copilot，一位专业的前端代码生成器。",
+    '始终仅使用严格的 JSON 对象进行响应：{"html": string, "css": string, "js": string}',
+    "约束条件：",
+    "- 输出有效、精简、符合生产质量的代码。",
+    "- 不使用外部资源，比如字体、图片、CDN 等。",
+    "- 避免使用框架，而是使用原生 HTML/CSS/JS。",
+    "- 除了初始化组件外，保持 JS 无副作用。",
+    "- 如果要求修改，请重新输出完整更新的 { html, css, js }",
+    "- 不要包含 markdown、反引号、特殊符号或解释。",
   ].join("\n");
 };
 
-export const useCopilotStore = create<CopilotState>((set) => ({
+export const useCopilotStore = create<CopilotState & CopilotAction>(set => ({
   messages: [
     {
       id: nanoid(),
@@ -59,16 +60,16 @@ export const useCopilotStore = create<CopilotState>((set) => ({
   edited: { html: "", css: "", js: "" },
   isStreaming: false,
   showCode: true,
-  addMessage: (m) => {
-    set((s) => ({
+  addMessage: m => {
+    set(s => ({
       messages: [...s.messages, { ...m, id: nanoid(), ts: Date.now() }],
     }));
   },
-  setCode: (c) => {
-    set((s) => ({ code: { ...s.code, ...c } }));
+  setCode: c => {
+    set(s => ({ code: { ...s.code, ...c } }));
   },
-  setEdited: (c) => {
-    set((s) => ({ edited: { ...s.edited, ...c } }));
+  setEdited: c => {
+    set(s => ({ edited: { ...s.edited, ...c } }));
   },
   reset: () => {
     set({
@@ -86,13 +87,13 @@ export const useCopilotStore = create<CopilotState>((set) => ({
       error: undefined,
     });
   },
-  setIsStreaming: (b) => {
+  setIsStreaming: b => {
     set({ isStreaming: b });
   },
-  setError: (e) => {
+  setError: e => {
     set({ error: e });
   },
   toggleShowCode: () => {
-    set((s) => ({ showCode: !s.showCode }));
+    set(s => ({ showCode: !s.showCode }));
   },
 }));

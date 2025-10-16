@@ -1,5 +1,5 @@
 import { buildSrcDoc } from "@/app/utils";
-import { GeneratedCode } from "@/store";
+import { GeneratedCode } from "@/app/store";
 import { useEffect, useMemo, useRef } from "react";
 import styles from "./index.module.scss";
 

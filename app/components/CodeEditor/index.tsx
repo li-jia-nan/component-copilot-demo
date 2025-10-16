@@ -1,4 +1,3 @@
-import { Input } from "antd";
 import { Code } from "lucide-react";
 import dynamic from "next/dynamic";
 import styles from "./index.module.scss";

@@ -1,29 +1,22 @@
-import { CopilotMessage, GeneratedCode } from "@/store";
+import type { GeneratedCode } from "@/app/store";
+import type { MutationFetcher } from "swr/mutation";
+import type { API } from "../interface";
 
-export const fetcher = (...args: Parameters<typeof fetch>) => {
-  return fetch(...args).then(res => res.json());
-};
+interface SendPostArgs {
+  prompt: string;
+}
 
-export const buildUserPrompt = (
-  input: string,
-  history: CopilotMessage[],
-  current: GeneratedCode,
+export const sendPost: MutationFetcher<API.LLM_Response, string, SendPostArgs> = async (
+  url,
+  options,
 ) => {
-  // Provide the last assistant code to guide stable edits
-  const lastAssistant = history
-    .filter(m => m.role === "assistant")
-    .map(m => m.content)
-    .slice(-1)[0];
-
-  const previous = lastAssistant ? `Previous code JSON (for reference):\n${lastAssistant}` : "";
-
-  return [
-    `User intent: ${input}`,
-    previous,
-    `Current edited code (user may have modified):`,
-    JSON.stringify(current),
-    "Return ONLY the JSON object.",
-  ].join("\n\n");
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(options.arg),
+  });
+  const data = await res.json();
+  return data;
 };
 
 export const buildSrcDoc = (code: GeneratedCode) => {

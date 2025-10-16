@@ -1,30 +1,34 @@
-import { useCopilotStore } from "@/store";
+import { useCopilotStore } from "@/app/store";
 import { Button, Input } from "antd";
 import { Loader2, Send } from "lucide-react";
+import clsx from "clsx";
+import { sendPost } from "@/app/utils";
 import { useCallback, useState } from "react";
 import useSWRMutation from "swr/mutation";
 import styles from "./index.module.scss";
-import clsx from "clsx";
-
-const sendRequest = (url: string, { arg }: { arg: { username: string } }) => {
-  return fetch(url, { method: "POST", body: JSON.stringify(arg) }).then(res => {
-    return res.json();
-  });
-};
 
 export const ChatBar: React.FC = () => {
-  const [input, setInput] = useState<string>("");
-  const { messages, addMessage, setCode, setEdited, setIsStreaming, setError } = useCopilotStore();
-  const edited = useCopilotStore(s => s.edited);
+  const [input, setInput] = useState<string>();
 
-  const { trigger, isMutating } = useSWRMutation("", sendRequest);
+  const { messages, addMessage } = useCopilotStore();
 
-  const onSend = useCallback(() => {
-    const text = input.trim();
-    if (!text) {
+  const edited = useCopilotStore(state => state.edited);
+
+  const { trigger, isMutating } = useSWRMutation("/api/generate-component", sendPost);
+
+  const onSend = useCallback(async () => {
+    const prompt = input?.trim();
+    if (!prompt) {
       return;
     }
-  }, [input]);
+    trigger({ prompt: prompt })
+      .then(res => {
+        console.log("response", res);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, [input, trigger]);
 
   return (
     <div className={styles.chatBar}>

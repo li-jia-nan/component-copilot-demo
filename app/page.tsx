@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Play, Sparkles } from "lucide-react";
-import { useCopilotStore } from "@/store";
+import { useCopilotStore } from "@/app/store";
 import { CodeEditor } from "./components/CodeEditor";
 import { PreviewPanel } from "./components/PreviewPanel";
 import { ChatBar } from "./components/ChatBar";
