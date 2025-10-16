@@ -9,6 +9,7 @@ import { ChatBar } from "./components/ChatBar";
 import { Toolbar } from "./components/Toolbar";
 import styles from "./page.module.scss";
 import { clsx } from "clsx";
+import { ThinkingLoader } from "./components/ThinkingLoader";
 
 const ComponentCopilotApp: React.FC = () => {
   const { code, setCode, isMutating, error, showCode } = useCopilotStore();
@@ -52,6 +53,7 @@ const ComponentCopilotApp: React.FC = () => {
           <CodeEditor language="javascript" value={code.js} onChange={setJs} />
         </div>
       </main>
+      {isMutating && <ThinkingLoader />}
     </div>
   );
 };
