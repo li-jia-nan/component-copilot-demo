@@ -1,4 +1,4 @@
-import type { GeneratedCode } from "@/app/store";
+import type { GeneratedCode } from "@/store";
 import type { MutationFetcher } from "swr/mutation";
 import type { API } from "../interface";
 
@@ -17,6 +17,24 @@ export const sendPost: MutationFetcher<API.LLM_Response, string, SendPostArgs> =
   });
   const data = await res.json();
   return data;
+};
+
+export const buildUserPrompt = (userIntent: string) => {
+  return `用户意图: ${userIntent}`;
+};
+
+export const baseSystemPrompt = () => {
+  return [
+    "你是 Component Copilot，一位专业的前端代码生成器。",
+    '始终仅使用严格的 JSON 对象进行响应：{"html": string, "css": string, "js": string}',
+    "约束条件：",
+    "- 输出有效、精简、符合生产质量的代码。",
+    "- 不使用外部资源，比如字体、图片、CDN 等。",
+    "- 避免使用框架，而是使用原生 HTML/CSS/JS。",
+    "- 除了初始化组件外，保持 JS 无副作用。",
+    "- 如果要求修改，请重新输出完整更新的 { html, css, js }",
+    "- 不要包含 markdown、反引号、特殊符号或解释。",
+  ].join("\n");
 };
 
 export const buildSrcDoc = (code: GeneratedCode) => {

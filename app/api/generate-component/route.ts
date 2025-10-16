@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import type { API } from "../../interface";
+import { baseSystemPrompt, buildUserPrompt } from "@/app/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -22,54 +23,27 @@ export const POST = async (request: Request) => {
     });
   }
 
-  return NextResponse.json<API.LLM_Response>({
-    success: true,
-    data: "aaaaa",
-    error: null,
-  });
-
-  // try {
-  //   const stream = await client.chat.completions.create({
-  //     model: "kimi-k2-0905-preview",
-  //     messages,
-  //     temperature,
-  //     stream: true,
-  //   });
-
-  //   const encoder = new TextEncoder();
-
-  //   const readable = new ReadableStream<Uint8Array>({
-  //     async start(controller) {
-  //       try {
-  //         for await (const part of stream) {
-  //           const delta = part.choices?.[0]?.delta?.content ?? "";
-  //           if (delta) {
-  //             controller.enqueue(encoder.encode(delta));
-  //           }
-  //         }
-  //       } catch (err) {
-  //         controller.error(err);
-  //         return;
-  //       } finally {
-  //         controller.close();
-  //       }
-  //     },
-  //   });
-
-  //   return new Response(readable, {
-  //     headers: {
-  //       "Content-Type": "text/plain; charset=utf-8",
-  //       "Cache-Control": "no-cache, no-transform",
-  //       "X-Accel-Buffering": "no",
-  //     },
-  //   });
-  // } catch (error: any) {
-  //   return new Response(
-  //     JSON.stringify({
-  //       success: false,
-  //       error: error?.message ?? "Moonshot request failed",
-  //     }),
-  //     { status: 500, headers: { "Content-Type": "application/json" } },
-  //   );
-  // }
+  try {
+    const stream = await client.chat.completions.create({
+      model: "kimi-k2-0905-preview",
+      messages: [
+        { role: "system", content: baseSystemPrompt() },
+        { role: "user", content: buildUserPrompt(prompt.trim()) },
+      ],
+      temperature: 0.6,
+      stream: false,
+    });
+    const responseText = stream.choices[0]?.message?.content || "";
+    return NextResponse.json<API.LLM_Response>({
+      success: true,
+      data: responseText,
+      error: null,
+    });
+  } catch (e) {
+    return NextResponse.json<API.LLM_Response>({
+      success: false,
+      data: null,
+      error: (e as Error).message || "Error generating response",
+    });
+  }
 };

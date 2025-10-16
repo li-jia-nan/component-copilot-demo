@@ -1,4 +1,4 @@
-import { useCopilotStore } from "@/app/store";
+import { useCopilotStore } from "@/store";
 import { Button, Input } from "antd";
 import { Loader2, Send } from "lucide-react";
 import clsx from "clsx";
@@ -10,7 +10,7 @@ import styles from "./index.module.scss";
 export const ChatBar: React.FC = () => {
   const [input, setInput] = useState<string>();
 
-  const { messages, addMessage } = useCopilotStore();
+  const { messages, setCode } = useCopilotStore();
 
   const edited = useCopilotStore(state => state.edited);
 
@@ -23,7 +23,12 @@ export const ChatBar: React.FC = () => {
     }
     trigger({ prompt: prompt })
       .then(res => {
-        console.log("response", res);
+        const data = JSON.parse(res.data);
+        setCode({
+          html: data.html,
+          css: data.css,
+          js: data.js,
+        });
       })
       .catch(err => {
         console.error(err);
@@ -37,7 +42,7 @@ export const ChatBar: React.FC = () => {
         onChange={e => setInput(e.target.value)}
         className={styles.input}
         variant="outlined"
-        placeholder={"例如：创建一个卡片，包含标题、描述、以及一个蓝色的‘了解更多’按钮"}
+        placeholder={`例如：创建一个卡片，包含标题、描述、以及一个蓝色的"了解更多"按钮`}
         onKeyDown={e => {
           if (e.key === "Enter") {
             e.preventDefault();

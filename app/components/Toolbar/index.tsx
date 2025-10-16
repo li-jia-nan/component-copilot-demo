@@ -1,4 +1,4 @@
-import { useCopilotStore } from "@/app/store";
+import { useCopilotStore } from "@/store";
 import { Button } from "antd";
 import { Copy, PanelLeftOpen, PanelRightOpen, Shield, Trash2 } from "lucide-react";
 import { useState } from "react";

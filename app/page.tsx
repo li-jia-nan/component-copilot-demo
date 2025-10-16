@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Play, Sparkles } from "lucide-react";
-import { useCopilotStore } from "@/app/store";
+import { useCopilotStore } from "@/store";
 import { CodeEditor } from "./components/CodeEditor";
 import { PreviewPanel } from "./components/PreviewPanel";
 import { ChatBar } from "./components/ChatBar";
@@ -49,9 +49,9 @@ const ComponentCopilotApp: React.FC = () => {
         </div>
         {showCode && (
           <div className={styles.codeColumn}>
-            <CodeEditor language="html" value={edited.html} onChange={setHtml} />
-            <CodeEditor language="css" value={edited.css} onChange={setCss} />
-            <CodeEditor language="javascript" value={edited.js} onChange={setJs} />
+            <CodeEditor language="html" value={code.html} onChange={setHtml} />
+            <CodeEditor language="css" value={code.css} onChange={setCss} />
+            <CodeEditor language="javascript" value={code.js} onChange={setJs} />
           </div>
         )}
       </main>
