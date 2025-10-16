@@ -1,12 +1,12 @@
 import type { GeneratedCode } from "@/store";
 import type { MutationFetcher } from "swr/mutation";
-import type { API } from "../interface";
+import type { LLM_Response } from "../interface";
 
 interface SendPostArgs {
   prompt: string;
 }
 
-export const sendPost: MutationFetcher<API.LLM_Response, string, SendPostArgs> = async (
+export const sendPost: MutationFetcher<LLM_Response, string, SendPostArgs> = async (
   url,
   options,
 ) => {

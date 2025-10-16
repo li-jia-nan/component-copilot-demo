@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import type { API } from "../../interface";
+import type { LLM_Response } from "../../interface";
 import { baseSystemPrompt, buildUserPrompt } from "@/app/utils";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +16,7 @@ export const POST = async (request: Request) => {
   const { prompt } = await request.json();
 
   if (!prompt.trim()) {
-    return NextResponse.json<API.LLM_Response>({
+    return NextResponse.json<LLM_Response>({
       success: false,
       data: null,
       error: "Invalid prompt",
@@ -34,13 +34,13 @@ export const POST = async (request: Request) => {
       stream: false,
     });
     const responseText = stream.choices[0]?.message?.content || "";
-    return NextResponse.json<API.LLM_Response>({
+    return NextResponse.json<LLM_Response>({
       success: true,
       data: responseText,
       error: null,
     });
   } catch (e) {
-    return NextResponse.json<API.LLM_Response>({
+    return NextResponse.json<LLM_Response>({
       success: false,
       data: null,
       error: (e as Error).message || "Error generating response",
